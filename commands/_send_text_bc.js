@@ -1,5 +1,5 @@
 /*CMD
-  command: 🎥 GET DEMO
+  command: /send_text_bc
   help: 
   need_reply: false
   auto_retry_time: 
@@ -16,5 +16,4 @@
   group: 
 CMD*/
 
-// Prothome pagination-er page number 0 set kora hochche
-Bot.runCommand("/show_videos 0");
+Bot.sendMessage(options.msg);
