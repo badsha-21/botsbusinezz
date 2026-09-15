@@ -1,5 +1,5 @@
 /*CMD
-  command: 🥵 PREMIUM DEMO
+  command: 👀HOW TO GET PREMIUM
   help: 
   need_reply: false
   auto_retry_time: 
@@ -16,4 +16,4 @@
   group: 
 CMD*/
 
-Bot.runCommand("/demo");
+Bot.runCommand("/howtoget");

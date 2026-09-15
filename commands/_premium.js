@@ -20,35 +20,23 @@ if(request.data){
   Api.deleteMessage({ chat_id: request.message.chat.id, message_id: request.message.message_id });
 }
 
-// ১. অ্যাডমিন প্যানেল থেকে ডাটা নেওয়া
-var upi_id = Bot.getProperty("upi_id") || "BHARATPE.8LOU1QON1180293@fbpe";
-var price = Bot.getProperty("plan_price") || "79";
-var name = "VIP_ACCESS"; // পেমেন্ট নাম
-
-// ২. Google QR API ব্যবহার করে ডাইনামিক কিউআর তৈরি
-// এটি আপনার UPI এবং Price নিয়ে একটি নতুন QR ইমেজ তৈরি করবে
-var qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=" + upi_id + "%26pn=" + name + "%26am=" + price + "%26cu=INR";
-
-var msg = "💎 **VIP ACCESS PAYMENT**\n" +
-"━━━━━━━━━━━━━━━━━━\n" +
-"⚡ FLASH SALE: Only 7 Spots Left!\n" +
-"🔥 ONE-TIME PAYMENT: ₹" + price + " ONLY!\n" +
-"🔒 LIFETIME VALIDITY\n" +
-"━━━━━━━━━━━━━━━━━━\n" +
-"1️⃣ Scan QR Code–\n" +
-"2️⃣ Pay ₹" + price + "\n" +
-"3️⃣ Click 'I HAVE PAID' button below\n\n" +
-"✅ UPI ID: `" + upi_id + "`";
-
+var buttons = [
+  [{ text: "👉  INDIAN DESI PLAN  👈 ", callback_data: "/plan1" }],
+  [{ text: "👉  R@PE VIDEOS PLAN  👈 ", callback_data: "/plan2" }],
+  [{ text: "👉 CHILD VIDEOS (50K+)  👈", callback_data: "/plan3" }], 
+  [{ text: "❌ CANCEL", callback_data: "/cancel_actionn" }]
+];
+ 
 Api.sendPhoto({
-  photo: qr_url, // এখানে এখন অটোমেটিক জেনারেটেড কিউআর যাবে
-  caption: msg,
-  parse_mode: "Markdown",
-  reply_markup: {
-    inline_keyboard: [
-      [{ text: "✅ I HAVE PAID (Submit Screenshot)", callback_data: "/onScreenshot" }],
-      [{ text: "📜 VIEW PROOFS", url: Bot.getProperty("proof_link") || "https://t.me/" }], 
-      [{ text: "❌ CANCEL", callback_data: "/cancel_action" }]
-    ]
-  }
+  photo: "https://t.me/nnnnnkkkkkkkkkk/12", 
+  reply_markup: { inline_keyboard: buttons },
+  parse_mode: "Markdown"
+});
+var buttons = [
+[{ text: "Limited Offer ⏳", callback_data: "/plan4" }]
+];
+Api.sendMessage({
+  text: "         👉     𝗔𝗟𝗟 𝗜𝗡 𝗢𝗡𝗘 𝗚𝗥𝗢𝗨𝗣    👈                 ", 
+  reply_markup: { inline_keyboard: buttons },
+  parse_mode: "Markdown"
 });

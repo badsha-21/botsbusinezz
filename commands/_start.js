@@ -57,15 +57,16 @@ Api.sendPhoto({
   reply_markup: {
     inline_keyboard: [
       [{ text: "💎 GET PREMIUM", callback_data: "/premium" }],
-      [{ text: "🥵 PREMIUM DEMO", url: demo }],
-      [{ text: "✅ PREMIUM PROOF", url: proof }]
+      [{ text: "🥵 PREMIUM DEMO", callback_data: "/demo"}],
+      [{ text: "✅ PREMIUM PROOF", url: proof }], 
+      [{ text: "👀HOW TO GET PREMIUM", callback_data: "/howtoget"}]
     ]
   }
 });
 
 // 3. Keep the Reply Keyboard (The buttons at the bottom from your screenshot)
 Bot.sendKeyboard(
-  "💎 GET PREMIUM, \n🥵 PREMIUM DEMO, \n✅ PREMIUM PROOF", 
+  "💎 GET PREMIUM, \n🥵 PREMIUM DEMO,\n👀HOW TO GET PREMIUM\n✅ PREMIUM PROOF", 
   
-  "𝗝𝘂𝘀𝘁 ₹56/-"
+  "𝗦𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗳𝗿𝗼𝗺 ₹𝟰𝟵 𝗼𝗻𝗹𝘆!!"
 );

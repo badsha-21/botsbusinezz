@@ -16,5 +16,12 @@
   group: 
 CMD*/
 
-Bot.setProperty("upi_id", message, "string");
-Bot.sendMessage("✅ UPI ID Updated!");
+// কোড:
+if (message) {
+  // ডাটাবেসে সেভ করা হচ্ছে
+  Bot.setProperty("upi_id", message, "string");
+  
+  Bot.sendMessage("✅ UPI ID সফলভাবে সেভ হয়েছে!\nনতুন UPI: " + message);
+} else {
+  Bot.sendMessage("❌ দয়া করে একটি ভ্যালিড টেক্সট পাঠান।");
+}

@@ -1,5 +1,5 @@
 /*CMD
-  command: /cancel_action
+  command: /cancel_actionn
   help: 
   need_reply: false
   auto_retry_time: 
@@ -23,4 +23,4 @@ Api.deleteMessage({
 });
 
 // ২. আপনার মেইন মেনু বা ক্যাটাগরি লিস্ট দেখানোর কমান্ডটি রান করা
-Bot.runCommand("/premium"); // আপনার মেনু কমান্ডের নাম এখানে দিন
+Bot.runCommand("/start"); // আপনার মেনু কমান্ডের নাম এখানে দিন
