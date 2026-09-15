@@ -1,5 +1,5 @@
-# new_demoprime_bot - chat bot
-It is repository for chat bot: [@new_demoprime_bot](https://t.me/new_demoprime_bot)
+# new_exclusive_vip_sellingg_bot - chat bot
+It is repository for chat bot: [@new_exclusive_vip_sellingg_bot](https://t.me/new_exclusive_vip_sellingg_bot)
 
 ## What it is?
 This repository can be imported to [Bots.Business](https://bots.business) as a worked chat bot.
