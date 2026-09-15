@@ -1,1 +1,6 @@
-# botsbusinezz
+{
+  "bb_sync_version":"1.0",
+  "name":"desi_preemium_seller_bot",
+  "csv_url":null,
+  "git_remote":"git@github.com:badsha-21/botsbusinezz.git"
+}
