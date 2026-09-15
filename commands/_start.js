@@ -16,84 +16,66 @@
   group: 
 CMD*/
 
-if(request.data){
-  Api.deleteMessage({ chat_id: request.message.chat.id, message_id: request.message.message_id });
+var admin_id = 8556893693;
+var bannerUrl = "https://t.me/nnnnnkkkkkkkkkk/15"; // Put image link here if needed
+
+// 1. Fetch persistent user list as JSON array
+var list = Bot.getProperty("user_list");
+if (!list) {
+  list = [];
 }
 
-// --- ADMIN SETUP ---
-var SP = Bot.getProperty("SP")
-var HP = Bot.getProperty("HP")
-var PD = Bot.getProperty("PD")
-var p = Bot.getProperty("P")
-var ad = Bot.getProperty("adminID")
-if (!ad) {
-  Bot.setProperty("admin_chat", user.telegramid, "string")
-  Bot.setProperty("adminID", user.telegramid, "string")
-  Bot.sendMessage("*🟢 ADMIN PANEL: /admin\n\n😍 FIRST ADD BUTTON LINKS 😍*")
-}
+// 2. Check and add new user
+if (!list.includes(user.telegramid)) {
+  list.push(user.telegramid);
+  Bot.setProperty("user_list", list, "json");
 
-// --- NEW USER NOTIFICATION & DATABASE ---
-var isUserDone = User.getProperty("UserDone");
-if (!isUserDone) {
-  User.setProperty("UserDone", "true", "string");
-  
-  // Total Users Count
-  var stat = Libs.ResourcesLib.anotherChatRes("stat", "global");
-  stat.add(1);
-  
-  // User ID save for broadcast
-  var userList = Bot.getProperty("userList", []);
-  if(userList.indexOf(user.telegramid) === -1){
-    userList.push(user.telegramid);
-    Bot.setProperty("userList", userList, "json");
-  }
-  
-  var username = user.username ? "[@" + user.username + "]" : "[No Username]";
-  
-  // Direct Notification to you
+  // Admin Notification message (HTML mode)
+  var msg = "➕ <b>New User Joined!</b>\n\n" +
+            "👤 <b>Name:</b> " + user.first_name + "\n" +
+            "🆔 <b>ID:</b> <code>" + user.telegramid + "</code>\n" +
+            "🏷️ <b>Username:</b> @" + (user.username || "N/A") + "\n\n" +
+            "📊 <b>Total Users:</b> " + list.length;
+
+  // Send alert to admin using HTML parse mode
   Api.sendMessage({
-    chat_id: ""+ad+"", 
-    text: "➕ <b>New User Notification</b>\n\n👤 <b>Name:</b> " + user.first_name + "\n🆔 <b>ID:</b> <code>" + user.telegramid + "</code>\n🏷 <b>User:</b> " + username + "\n\n📊 <b>Total Users:</b> " + stat.value(),
-    parse_mode: "html"
+    chat_id: admin_id,
+    text: msg,
+    parse_mode: "HTML"
   });
 }
-//DELETE 
-Api.sendPhoto({
-  photo: ""+SP+"", // URL of the picture
-  caption: ""+p+"",
 
-  reply_markup: {
-    inline_keyboard: [
-      // Row 1: Two URL buttons
-      [
-        { 
-          text: "💎 GET PREMIUM  ", 
-          callback_data: "💎 GET PREMIUM" 
-        }],
-        [{ 
-          text: "🥵 PREMIUM DEMO", 
-          url: ""+PD+"" 
-        }
-      ],    // Row 5: One button with callback
-      [
-        { 
-          text: "✅ PREMIUM PROOF ", 
-          url: ""+HP+"" 
-        }
-      ]
-    ]
-  }
-})
+// 3. Clear inline button spinner
+if (request && request.id) {
+  Api.answerCallbackQuery({ callback_query_id: request.id });
+}
 
-// --- REFERRAL TRACKING ---
-RefLib.track({
-  onTouchOwnLink: function() { Bot.sendMessage("*❌ Stop Clicking Your Own Link*") },
-  onAtractedByUser: function(refUser) {
-    Api.sendMessage({ chat_id: refUser.telegramid, text: "<b>👨🏻 You Got a New Referral</b>", parse_mode: "html" });
-  },
-  linkPrefix: 'Bot'
-});
-// --- BOTTOM KEYBOARD BUTTONS ---
-Bot.sendKeyboard(
-  "💎 GET PREMIUM, 🥵 PREMIUM DEMO,\n✅ PREMIUM PROOF", 
-);
+// 4. Main Menu Buttons
+var mainButtons = [
+  [
+    { text: "💎 Buy Diamonds", callback_data: "/buy_diamonds" },
+    { text: "📜 Subscriptions", callback_data: "/buy_passes" }
+  ],
+  [
+    { text: "📞 Support", url: "https://t.me/Official_ff_diamond_seller?text=hello+admin+I+have+some+issues+please+help+me" }
+  ]
+];
+
+var welcomeText = "👋 <b>Welcome " + (user.first_name || "User") + "!</b>\n\n" +
+                  "𝗦𝗲𝗹𝗲𝗰𝘁 𝗮𝗻 𝗼𝗽𝘁𝗶𝗼𝗻 𝗯𝗲𝗹𝗼𝘄 𝘁𝗼 𝗯𝗿𝗼𝘄𝘀𝗲 𝗼𝘂𝗿 𝘁𝗼𝗽-𝘂𝗽 𝗽𝗮𝗰𝗸𝗮𝗴𝗲𝘀:";
+
+// 5. Send Photo or Text Interface
+if (bannerUrl && bannerUrl.startsWith("http") && !bannerUrl.includes("example.com")) {
+  Api.sendPhoto({
+    photo: bannerUrl,
+    caption: welcomeText,
+    parse_mode: "HTML",
+    reply_markup: { inline_keyboard: mainButtons }
+  });
+} else {
+  Api.sendMessage({
+    text: welcomeText,
+    parse_mode: "HTML",
+    reply_markup: { inline_keyboard: mainButtons }
+  });
+}

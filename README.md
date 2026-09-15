@@ -1,5 +1,5 @@
-# premiumvidoseller3_bot - chat bot
-It is repository for chat bot: [@premiumvidoseller3_bot](https://t.me/premiumvidoseller3_bot)
+# Cloned bot: Official_ff_diamond_sellerbot - chat bot
+It is repository for chat bot: [@Cloned bot: Official_ff_diamond_sellerbot](https://t.me/Cloned bot: Official_ff_diamond_sellerbot)
 
 ## What it is?
 This repository can be imported to [Bots.Business](https://bots.business) as a worked chat bot.
