@@ -16,11 +16,12 @@
   group: 
 CMD*/
 
-var proof = Bot.getProperty("proof_link") || "https://t.me/";
+var proof = Bot.getProperty("proof_link") || "https://t.me/+RCCNCH-nOgo5MjVh";
 
 Api.sendMessage({
-  text: "✅ **Click below to see our Payment Proofs:**",
+  text: "✅ **Click the button below to check our Payment Proofs:**",
+  parse_mode: "Markdown",
   reply_markup: {
-    inline_keyboard: [[{ text: "👉 VIEW PROOFS", url: proof }]]
+    inline_keyboard: [[{ text: "👉 VIEW PROOFS NOW", url: proof }]]
   }
 });
