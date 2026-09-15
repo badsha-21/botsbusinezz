@@ -1,5 +1,5 @@
-# desi_preemium_seller_bot - chat bot
-It is repository for chat bot: [@desi_preemium_seller_bot](https://t.me/desi_preemium_seller_bot)
+# premiumvidoseller5_bot - chat bot
+It is repository for chat bot: [@premiumvidoseller5_bot](https://t.me/premiumvidoseller5_bot)
 
 ## What it is?
 This repository can be imported to [Bots.Business](https://bots.business) as a worked chat bot.

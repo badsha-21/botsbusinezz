@@ -23,4 +23,4 @@ Api.sendMessage({
   text: "❌ *Sorry, your payment screenshot is invalid or not appropriate. Admin can't find your payment.*"
 });
 
-Bot.sendMessage("❌User rejected and notification sent.");
+Bot.sendMessage("User rejected and notification sent.");
