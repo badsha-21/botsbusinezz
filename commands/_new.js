@@ -16,4 +16,4 @@
   group: 
 CMD*/
 
-Bot.setProperty("adminID", 8527300066, "integer"); // Use your ID here
+Bot.setProperty("adminID", 8356234388, "integer"); // Use your ID here

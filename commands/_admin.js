@@ -16,32 +16,25 @@
   group: 
 CMD*/
 
-// আপনার নিজের আইডি এখানে দিন
-var my_id = "8356234388"; 
+if(request.data){
+var message_id = request.message.message_id
+var chat_id = request.message.chat.id
 
-// সেভ করা অ্যাডমিন লিস্ট নেওয়া
-var saved_admins = Bot.getProperty("admin_list") || "";
-var admin_array = saved_admins.split(",");
+Api.deleteMessage({
+chat_id :  chat_id,
+message_id : message_id
+})
+}
+var a = Bot.getProperty("adminID")
 
-// চেক করা হচ্ছে ইউজার কি অ্যাডমিন কি না
-var is_admin = (user.telegramid == my_id) || admin_array.includes(user.telegramid.toString());
+if (user.telegramid == a){
+Bot.sendMessage("🔐Access Granted")
+var buttons = [
+    [{title: "📣 Broadcast", command: "BRO" },{title:"🖇️ Send Link ", command:"MessageUser"}],
+    [{title: " SET QR CODE 🛡️", command: "QR"},{title: "START MESSAGE 😍", command: "premium"}],[{title: "PREMIUM DEMO 🥵", command: "PD" },{title:"PREMIUM PROOF ✅", command:"HP"}],[{title: "START IMAGE 📷", command: "SP" },{title:"QR MESSAGE 💬", command:"PR"}],[{title: "CHANGE ADMIN ⚒️", command: "CA" }],[{title:"SET PVT CHANNEL 🖇️", command:"PVT"}]
+]
+Bot.sendInlineKeyboard(buttons, "*HEY* " +user.first_name+ "👋🏻\n\n*WELCOME TO THE ADMIN PANEL 🎀*", {disable_web_page_preview: true});
 
-if (is_admin) {
-  var buttons = [
-    [{ text: "📣 Broadcast", callback_data: "/admin_bc" }, { text: "🔗 Send Link", callback_data: "/admin_send_link" }],
-    [{ text: "SET QR CODE 🛡️", callback_data: "/set_qr" }, { text: "START MESSAGE 😍", callback_data: "/set_msg" }],
-    [{ text: "PREMIUM DEMO 🥵", callback_data: "/set_demo" }, { text: "PREMIUM PROOF ✅", callback_data: "/set_proof" }],
-    [{ text: "START IMAGE 📷", callback_data: "/set_image" }, { text: "QR MESSAGE 💬", callback_data: "/set_qr_msg" }],
-    [{ text: "SET UPI ID 💳", callback_data: "/set_upi" }, { text: "SET PRICE 💰", callback_data: "/set_price" }],
-    [{ text: "CHANGE ADMIN 🛠️", callback_data: "/change_admin" }],
-    [{ text: "SET PVT CHANNEL 🔗", callback_data: "/set_pvt" }]
-  ];
-
-  Api.sendMessage({
-    text: "🔐 **Access Granted**\n\n**WELCOME TO THE ADMIN PANEL 🎀**",
-    reply_markup: { inline_keyboard: buttons },
-    parse_mode: "Markdown"
-  });
-} else {
-  Bot.sendMessage("Access Denied. ❌");
+}else{
+Bot.sendMessage("You Are Not An Admin")
 }
