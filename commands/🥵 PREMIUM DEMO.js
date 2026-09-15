@@ -16,12 +16,11 @@
   group: 
 CMD*/
 
-var demo = Bot.getProperty("demo_link") || "http://t.me/premium_demo_prime_bot";
+var demo = Bot.getProperty("demo_link") || "https://t.me/";
 
 Api.sendMessage({
-  text: "🥵 **Click the button below to view our Premium Demo:**",
-  parse_mode: "Markdown",
+  text: "🥵 **Click below to see our Premium Demo:**",
   reply_markup: {
-    inline_keyboard: [[{ text: "👉 VIEW DEMO NOW", url: demo }]]
+    inline_keyboard: [[{ text: "👉 VIEW DEMO", url: demo }]]
   }
 });

@@ -16,22 +16,23 @@
   group: 
 CMD*/
 
-var PVT = Bot.getProperty("PVT"); // আপনার প্রপার্টি নাম অনুযায়ী
-let user_id = params;
+var userId = params; // This gets the user ID from the admin's click
+// 1. Get the dynamic Private Link from Properties
+var pvtLink = Bot.getProperty("pvt_link") || "https://t.me/+Default_Link"; 
 
-if(user_id){
-  Api.sendMessage({
-    chat_id: user_id,
-    text: "✅ **Payment Verified!**\n\nYour payment has been successfully confirmed. Click the button below to join your private channel.",
-    parse_mode: "Markdown",
-    reply_markup: {
-      inline_keyboard: [
-        [
-          { text: "🔗 JOIN VIP CHANNEL", url: PVT }
-        ]
+// 2. Send the message with the dynamic button
+Api.sendMessage({
+  chat_id: userId,
+  text: "🎉 **PAYMENT APPROVED!**\n\nYour payment has been successfully verified. Click below to join the VIP Channel.",
+  parse_mode: "Markdown",
+  reply_markup: {
+    inline_keyboard: [
+      [
+        { text: "🔗 JOIN VIP CHANNEL", url: pvtLink }
       ]
-    }
-  });
+    ]
+  }
+});
 
-  Bot.sendMessage("✅ User Approved and pvt link was sent to: " + user_id);
-}
+// Notify Admin
+Bot.sendMessage("User approved and Dynamic VIP Link sent! ✅");

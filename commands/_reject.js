@@ -16,14 +16,11 @@
   group: 
 CMD*/
 
-var userId = params; // এটি বাটন থেকে ইউজারের আইডিটি নিয়ে নেবে
+var userId = params;
 
-if(userId){
-  Api.sendMessage({
-    chat_id: userId,
-    text: "❌ *SORRY!! Your payment screenshot is invalid or inappropriate. Admin can't find your payment.*",
-    parse_mode: "Markdown"
-  });
+Api.sendMessage({
+  chat_id: userId,
+  text: "❌ *Sorry, your payment screenshot is invalid or not appropriate. Admin can't find your payment.*"
+});
 
-  Bot.sendMessage("✅ User rejected and notification sent to: " + userId);
-}
+Bot.sendMessage("User rejected and notification sent.");

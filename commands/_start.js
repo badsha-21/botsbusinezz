@@ -16,84 +16,56 @@
   group: 
 CMD*/
 
-if(request.data){
-  Api.deleteMessage({ chat_id: request.message.chat.id, message_id: request.message.message_id });
+var chat_ids = Bot.getProperty("ChatIDS") || [];
+if (!chat_ids.includes(chat.chatid)) {
+  chat_ids.push(chat.chatid);
+  Bot.setProperty("ChatIDS", chat_ids, "json");
 }
+var list = Bot.getProperty("user_list", []);
+var admin_id = "8356234388"; // Apnar Admin ID thik ache kina check korun
 
-// --- ADMIN SETUP ---
-var SP = Bot.getProperty("SP")
-var HP = Bot.getProperty("HP")
-var PD = Bot.getProperty("PD")
-var p = Bot.getProperty("P")
-var ad = Bot.getProperty("adminID")
-if (!ad) {
-  Bot.setProperty("admin_chat", user.telegramid, "string")
-  Bot.setProperty("adminID", user.telegramid, "string")
-  Bot.sendMessage("*🟢 ADMIN PANEL: /admin\n\n😍 FIRST ADD BUTTON LINKS 😍*")
-}
-
-// --- NEW USER NOTIFICATION & DATABASE ---
-var isUserDone = User.getProperty("UserDone");
-if (!isUserDone) {
-  User.setProperty("UserDone", "true", "string");
+// Jodi user list-e na thake, tobe notification jabe
+if (!list.includes(user.telegramid)) {
+  list.push(user.telegramid);
+  Bot.setProperty("user_list", list, "json");
   
-  // Total Users Count
-  var stat = Libs.ResourcesLib.anotherChatRes("stat", "global");
-  stat.add(1);
-  
-  // User ID save for broadcast
-  var userList = Bot.getProperty("userList", []);
-  if(userList.indexOf(user.telegramid) === -1){
-    userList.push(user.telegramid);
-    Bot.setProperty("userList", userList, "json");
-  }
-  
-  var username = user.username ? "[@" + user.username + "]" : "[No Username]";
-  
-  // Direct Notification to you
+  // 🔔 Admin Notification message
+  var msg = "➕ <b>New User Joined!</b>\n\n" +
+            "👤 <b>Name:</b> " + user.first_name + "\n" +
+            "🆔 <b>ID:</b> <code>" + user.telegramid + "</code>\n" +
+            "🏷 <b>Username:</b> @" + (user.username || "N/A") + "\n\n" +
+            "📊 <b>Total Users:</b> " + list.length;
+            
+  // Api.sendMessage use kora holo HTML mode-e
   Api.sendMessage({
-    chat_id: ""+ad+"", 
-    text: "➕ <b>New User Notification</b>\n\n👤 <b>Name:</b> " + user.first_name + "\n🆔 <b>ID:</b> <code>" + user.telegramid + "</code>\n🏷 <b>User:</b> " + username + "\n\n📊 <b>Total Users:</b> " + stat.value(),
-    parse_mode: "html"
+    chat_id: admin_id,
+    text: msg,
+    parse_mode: "HTML"
   });
 }
-//DELETE 
-Api.sendPhoto({
-  photo: ""+SP+"", // URL of the picture
-  caption: ""+p+"",
+// 1. Get dynamic data from Admin Panel
+var img = Bot.getProperty("start_img") || "https://telegra.ph/file/default.jpg";
+var txt = Bot.getProperty("start_msg") || "Welcome to the Bot!";
+var demo = Bot.getProperty("demo_link") || "https://t.me/";
+var proof = Bot.getProperty("proof_link") || "https://t.me/";
 
+// 2. Send the Photo with Inline Buttons (Direct Links)
+Api.sendPhoto({
+  photo: img,
+  caption: txt,
+  parse_mode: "Markdown",
   reply_markup: {
     inline_keyboard: [
-      // Row 1: Two URL buttons
-      [
-        { 
-          text: "💎 GET PREMIUM  ", 
-          callback_data: "💎 GET PREMIUM" 
-        }],
-        [{ 
-          text: "🥵 PREMIUM DEMO", 
-          url: ""+PD+"" 
-        }
-      ],    // Row 5: One button with callback
-      [
-        { 
-          text: "✅ PREMIUM PROOF ", 
-          url: ""+HP+"" 
-        }
-      ]
+      [{ text: "💎 GET PREMIUM", callback_data: "/premium" }],
+      [{ text: "🥵 PREMIUM DEMO", url: demo }],
+      [{ text: "✅ PREMIUM PROOF", url: proof }]
     ]
   }
-})
-
-// --- REFERRAL TRACKING ---
-RefLib.track({
-  onTouchOwnLink: function() { Bot.sendMessage("*❌ Stop Clicking Your Own Link*") },
-  onAtractedByUser: function(refUser) {
-    Api.sendMessage({ chat_id: refUser.telegramid, text: "<b>👨🏻 You Got a New Referral</b>", parse_mode: "html" });
-  },
-  linkPrefix: 'Bot'
 });
-// --- BOTTOM KEYBOARD BUTTONS ---
+
+// 3. Keep the Reply Keyboard (The buttons at the bottom from your screenshot)
 Bot.sendKeyboard(
-  "💎 GET PREMIUM, 🥵 PREMIUM DEMO,\n✅ PREMIUM PROOF", 
+  "💎 GET PREMIUM, \n🥵 PREMIUM DEMO, \n✅ PREMIUM PROOF", 
+  
+  "𝗝𝘂𝘀𝘁 ₹56/-"
 );

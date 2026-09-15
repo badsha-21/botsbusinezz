@@ -1,5 +1,5 @@
 /*CMD
-  command: /new
+  command: /set_demo
   help: 
   need_reply: false
   auto_retry_time: 
@@ -16,4 +16,4 @@
   group: 
 CMD*/
 
-Bot.setProperty("adminID", 8527300066, "integer"); // Use your ID here
+Bot.sendMessage("Send the new Demo Link:"); Bot.runCommand("/save_demo");
