@@ -16,25 +16,71 @@
   group: 
 CMD*/
 
-if(request.data){
-var message_id = request.message.message_id
-var chat_id = request.message.chat.id
+var adminId = 8556893693;
 
-Api.deleteMessage({
-chat_id :  chat_id,
-message_id : message_id
-})
+if (request && request.id) {
+  Api.answerCallbackQuery({ callback_query_id: request.id });
 }
-var a = Bot.getProperty("adminID")
 
-if (user.telegramid == a){
-Bot.sendMessage("🔐Access Granted")
-var buttons = [
-    [{title: "📣 Broadcast", command: "BRO" },{title:"🖇️ Send Link ", command:"MessageUser"}],
-    [{title: " SET QR CODE 🛡️", command: "QR"},{title: "START MESSAGE 😍", command: "premium"}],[{title: "PREMIUM DEMO 🥵", command: "PD" },{title:"PREMIUM PROOF ✅", command:"HP"}],[{title: "START IMAGE 📷", command: "SP" },{title:"QR MESSAGE 💬", command:"PR"}],[{title: "CHANGE ADMIN ⚒️", command: "CA" }],[{title:"SET PVT CHANNEL 🖇️", command:"PVT"}]
-]
-Bot.sendInlineKeyboard(buttons, "*HEY* " +user.first_name+ "👋🏻\n\n*WELCOME TO THE ADMIN PANEL 🎀*", {disable_web_page_preview: true});
-
-}else{
-Bot.sendMessage("You Are Not An Admin")
+if (user && user.telegramid != adminId) {
+  Api.sendMessage({
+    text: "⚠️ *ACCESS DENIED*",
+    parse_mode: "Markdown"
+  });
+  return;
 }
+
+// Reset any listener states
+User.setProperty("current_command", "", "string");
+
+// Fetch total user count from global database
+// Fetch user count directly from array length
+var list = Bot.getProperty("user_list") || [];
+var totalUsers = list.length;
+
+var currentUpi = Bot.getProperty("admin_upi") || "Not Set";
+var diamondPlans = Bot.getProperty("diamond_plans") || [
+  { amount: "100💎", price: "80" },
+  { amount: "310💎", price: "240" },
+  { amount: "520💎", price: "400" },
+  { amount: "1060💎", price: "800" }
+];
+var membershipPlans = Bot.getProperty("membership_plans") || [
+  { name: "Weekly Membership", price: "160" },
+  { name: "Monthly Membership", price: "790" }
+];
+
+var diamondListText = "";
+for (var i = 0; i < diamondPlans.length; i++) {
+  diamondListText += "• " + diamondPlans[i].amount + ": ₹" + diamondPlans[i].price + "\n";
+}
+
+var membershipListText = "";
+for (var j = 0; j < membershipPlans.length; j++) {
+  membershipListText += "• " + membershipPlans[j].name + ": ₹" + membershipPlans[j].price + "\n";
+}
+
+var adminButtons = [
+  [
+    { text: "💳 Set UPI ID", callback_data: "/set_upi" }
+  ],
+  [
+    { text: "💎 Edit Diamond Plans", callback_data: "/edit_diamond_plans" },
+    { text: "📜 Edit Membership Plans", callback_data: "/edit_membership_plans" }
+  ],
+  [
+    { text: "⬅️ Back to Main Menu", callback_data: "/start" }
+  ]
+];
+
+// Display Admin Management Panel with Live User Count
+Api.sendMessage({
+  text: "🛠️ *ADMIN STORE MANAGEMENT*\n\n" +
+        "📊 *Total Registered Users:* " + totalUsers + "\n" +
+        "📌 *Current UPI ID:* `" + currentUpi + "`\n\n" +
+        "💎 *Diamond Top-Up Plans:*\n" + diamondListText + "\n" +
+        "📜 *Membership Plans:*\n" + membershipListText + "\n" +
+        "Select an option below to modify your pricing structure:",
+  parse_mode: "Markdown",
+  reply_markup: { inline_keyboard: adminButtons }
+});
