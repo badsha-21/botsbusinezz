@@ -16,6 +16,4 @@
   group: 
 CMD*/
 
-// কোড:
-Bot.sendMessage("💳 নতুন UPI ID টি পাঠান (যেমন: example@upi):");
-Bot.runCommand("/save_upi");
+Bot.sendMessage("Send New UPI ID:"); Bot.runCommand("/save_upi");

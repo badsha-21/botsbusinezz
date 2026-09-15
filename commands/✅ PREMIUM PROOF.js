@@ -19,7 +19,7 @@ CMD*/
 var proof = Bot.getProperty("proof_link") || "https://t.me/";
 
 Api.sendMessage({
-  text: "✅ Click below to see our Payment Proofs:",
+  text: "✅ **Click below to see our Payment Proofs:**",
   reply_markup: {
     inline_keyboard: [[{ text: "👉 VIEW PROOFS", url: proof }]]
   }

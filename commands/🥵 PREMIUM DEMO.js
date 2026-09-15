@@ -16,4 +16,11 @@
   group: 
 CMD*/
 
-Bot.runCommand("/demo");
+var demo = Bot.getProperty("demo_link") || "https://t.me/";
+
+Api.sendMessage({
+  text: "🥵 **Click below to see our Premium Demo:**",
+  reply_markup: {
+    inline_keyboard: [[{ text: "👉 VIEW DEMO", url: demo }]]
+  }
+});
